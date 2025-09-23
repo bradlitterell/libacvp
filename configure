@@ -13084,10 +13084,14 @@ if test "x$disable_app" = "xno" ; then
         tmp_ifs="$IFS"
         IFS=" "
         for lib in $iut_lib_name; do
-            { printf "%s\n" "$as_me:${as_lineno-$LINENO}: checking for presence of lib${lib} in lib/lib64 dirs" >&5
-printf %s "checking for presence of lib${lib} in lib/lib64 dirs... " >&6; }
+            { printf "%s\n" "$as_me:${as_lineno-$LINENO}: checking BJL for presence of lib${lib} in lib/lib64 dirs" >&5
+printf %s "checking BJL for presence of lib${lib} in lib/lib64 dirs... " >&6; }
             # Check for shared libraries in lib64, then lib. If no match, check for static libraries in either dir.
-            if test -f "$iut_dir/lib64/lib${lib}.so"; then
+            { printf "%s\n" "$as_me:${as_lineno-$LINENO}: checking BJL for presence of lib${lib} in $iut_dir/lib${lib}.so" >&5
+printf %s "checking BJL for presence of lib${lib} in $iut_dir/lib${lib}.so... " >&6; }
+            if test -f "$iut_dir/lib${lib}.so"; then
+                iut_lib_flags="${iut_lib_flags} $iut_dir/lib${lib}.so "
+            elif test -f "$iut_dir/lib64/lib${lib}.so"; then
                 iut_lib_flags="${iut_lib_flags} $iut_dir/lib64/lib${lib}.so "
             elif test -f "$iut_dir/lib64/lib${lib}.dylib"; then
                 iut_lib_flags="${iut_lib_flags} $iut_dir/lib64/lib${lib}.dylib "

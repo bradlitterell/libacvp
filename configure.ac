@@ -164,14 +164,14 @@ AC_ARG_ENABLE([wrapper-library],
 
 # This var should be set to indicate the crypto library being tested with a given build of acvp_app
 # This does not apply for --disable-app builds
-# Set default value here, change based on args below 
+# Set default value here, change based on args below
 # iut_lib_name should match the name of the library lib<name>. Multiple library names can be referenced using single space delimiter.
 # OpenSSL is a special case; we want users to be able to indicate a path even with other IUTs are being tested, in case libcurl depends
 # on it as well. So, we only set the iut flags for OpenSSL if no other IUTs are specified.
 acvp_app_iut=""
 ssl_dir=""
 iut_specified=0;
-# SSL dir only used if building app too 
+# SSL dir only used if building app too
 if test "x$disable_app" = "xno" ; then
     # ssl installation directory path
     AC_ARG_WITH([ssl-dir],
@@ -253,22 +253,28 @@ if test "x$disable_app" = "xno" ; then
         tmp_ifs="$IFS"
         IFS=" "
         for lib in $iut_lib_name; do
-            AC_MSG_CHECKING(for presence of lib${lib} in lib/lib64 dirs)
             # Check for shared libraries in lib64, then lib. If no match, check for static libraries in either dir.
-            if test -f "$iut_dir/lib64/lib${lib}.so"; then
-                iut_lib_flags="${iut_lib_flags} $iut_dir/lib64/lib${lib}.so "
-            elif test -f "$iut_dir/lib64/lib${lib}.dylib"; then
-                iut_lib_flags="${iut_lib_flags} $iut_dir/lib64/lib${lib}.dylib "
-            elif test -f "$iut_dir/lib/lib${lib}.so"; then
-                iut_lib_flags="${iut_lib_flags} $iut_dir/lib/lib${lib}.so "
-            elif test -f "$iut_dir/lib/lib${lib}.dylib"; then
-                iut_lib_flags="${iut_lib_flags} $iut_dir/lib/lib${lib}.dylib "
-            elif test -f "$iut_dir/lib64/lib${lib}.a"; then
-                iut_lib_flags="${iut_lib_flags} $iut_dir/lib64/lib${lib}.a "
-            elif test -f "$iut_dir/lib/lib${lib}.a"; then
-                iut_lib_flags="${iut_lib_flags} $iut_dir/lib/lib${lib}.a "
+            AC_MSG_CHECKING(for presence of lib${lib} in $iut_dir/lib${lib}.so)
+            if test -f "$iut_dir/lib${lib}.so"; then
+                iut_lib_flags="${iut_lib_flags} $iut_dir/lib${lib}.so "
             else
-                AC_MSG_FAILURE([Cannot locate lib${lib} in $iut_dir/lib64 or $iut_dir/lib])
+                AC_MSG_CHECKING(for presence of lib${lib} in lib/lib64 dirs)
+
+                if test -f "$iut_dir/lib64/lib${lib}.so"; then
+                    iut_lib_flags="${iut_lib_flags} $iut_dir/lib64/lib${lib}.so "
+                elif test -f "$iut_dir/lib64/lib${lib}.dylib"; then
+                    iut_lib_flags="${iut_lib_flags} $iut_dir/lib64/lib${lib}.dylib "
+                elif test -f "$iut_dir/lib/lib${lib}.so"; then
+                    iut_lib_flags="${iut_lib_flags} $iut_dir/lib/lib${lib}.so "
+                elif test -f "$iut_dir/lib/lib${lib}.dylib"; then
+                    iut_lib_flags="${iut_lib_flags} $iut_dir/lib/lib${lib}.dylib "
+                elif test -f "$iut_dir/lib64/lib${lib}.a"; then
+                    iut_lib_flags="${iut_lib_flags} $iut_dir/lib64/lib${lib}.a "
+                elif test -f "$iut_dir/lib/lib${lib}.a"; then
+                    iut_lib_flags="${iut_lib_flags} $iut_dir/lib/lib${lib}.a "
+                else
+                    AC_MSG_FAILURE([Cannot locate lib${lib} in $iut_dir/lib64 or $iut_dir/lib])
+                fi
             fi
             AC_MSG_RESULT(yes)
         done
