@@ -4,7 +4,7 @@
         |  |     |  | |  |_)  |    /  ^  \   |  ,----' \   \/   /  |  |_)  |
         |  |     |  | |   _  <    /  /_\  \  |  |       \      /   |   ___/
         |  `----.|  | |  |_)  |  /  _____  \ |  `----.   \    /    |  |
-        |_______||__| |______/  /__/     \__\ \______|    \__/     | _|   
+        |_______||__| |______/  /__/     \__\ \______|    \__/     | _|
 
            A library that implements the client-side of the ACVP protocol.
       The ACVP specification can be found at https://github.com/usnistgov/ACVP
@@ -110,7 +110,7 @@ supported.
 The instructions below indicate how to build libacvp and/or acvp_app.
 
 `--prefix<path to install dir>` can be used with any configure options to specify where you would
-like the library and application to install to. 
+like the library and application to install to.
 
 Regardless of which IUT is being linked, `--with-ssl-dir` can be provided if OpenSSL is a dependency
 and is installed in non-standard paths.  if `--with-ssl-dir` is provided on top of another IUT's
@@ -130,8 +130,9 @@ make clean
 make
 make install
 ```
+> **Note:** if necessary to modify configure, update `configure.ac` and run autoconf to rebuild `configure`
 
-Note: `--with-libcurl-dir` can be excluded if a version of libcurl with headers exists in the
+> **Note:** `--with-libcurl-dir` can be excluded if a version of libcurl with headers exists in the
 system's default search paths. This can be helpful if you are not testing OpenSSL and do not
 have specific requirements from the library used for TLS.
 
@@ -191,7 +192,7 @@ Prerequisites:
 This system assumes all dependency library paths have /include folders containing all the headers
 needed to properly link. This can be altered in the scripts if needed.
 
-For these steps, use the Visual Studio Command Prompt for your platform (x64, x86, x86_64, or 
+For these steps, use the Visual Studio Command Prompt for your platform (x64, x86, x86_64, or
 x64_86)
 
 Steps:
@@ -217,7 +218,7 @@ priority unless we receive substantial feedback about needs for further support.
 
 ## Running
 1. Ensure the runtime linker environment is aware of all dependency libraries, such as libcurl
-   and any IUT libraries. On Linux/GNU platforms, this is typically done by setting 
+   and any IUT libraries. On Linux/GNU platforms, this is typically done by setting
    `LD_LIBRARY_PATH`.
 2. Modify scripts/nist_setup.sh and run `source scripts/nist_setup.sh`
 3. `./app/acvp_app --<options>`
@@ -228,7 +229,7 @@ libacvp generates a file containing information that can be used to resume or ch
 of a session. By default, this is usually placed in the folder of the executable utilizing
 libacvp, though this can be different on some OS. The name, by default, is
 testSession_(ID number).json. The path and prefix can be controlled using ACV_SESSION_SAVE_PATH
-and ACV_SESSION_SAVE_PREFIX in your environment, respectively. 
+and ACV_SESSION_SAVE_PREFIX in your environment, respectively.
 
 
 ### How to test offline
@@ -274,8 +275,8 @@ algorithms that cannot be tested with the given version of the IUT as built.
 
 `I get some sort of hard crash while processing vector sets - why?`
 It is probable that acvp_app is linking to a different version of a dependency than the one
-it was configured and built with. libacvp/acvp_app depend on library versions in enabling 
-or disabling certain features at build time, so please make sure libacvp and acvp_app are 
+it was configured and built with. libacvp/acvp_app depend on library versions in enabling
+or disabling certain features at build time, so please make sure libacvp and acvp_app are
 built and run with the same versions of each library.
 
 `Can I redownload vector sets from a previously created session?`
